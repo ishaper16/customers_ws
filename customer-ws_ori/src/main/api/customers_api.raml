@@ -1,0 +1,75 @@
+#%RAML 0.8
+title: CustomersAPI
+version: 1.0
+
+/customers:
+  description: Perform retrieve all customers and create customer operations
+  get:
+    description: List all customers 
+    responses: 
+      200:
+        body: 
+          application/json:
+            example:  |
+             [{"custId":"1","firstName":"Mike","lastName":"Brown","addresses":[{"addressType":"SHIPTO","street":"12 New St","city":"Dundas","state":"NSW","postcode":"2117"},{"addressType":"BILLTO","street":"13 Old St","city":"Ermington","state":"NSW","postcode":"2115"}]},{"custId":"2","firstName":"Sally","lastName":"Possum","addresses":[{"addressType":"SHIPTO","street":"52 Crooked St","city":"Kingswood","state":"NSW","postcode":"2747"},{"addressType":"BILLTO","street":"52 Crooked St","city":"Kingswood","state":"NSW","postcode":"2747"}]}] 
+  
+  post:
+    description: Creates a customer
+    body:
+      application/json:  
+        example: |
+          {"firstName":"Mike","lastName":"Brown","addresses":[{"addressType":"SHIPTO","street":"12 New St","city":"Dundas","state":"NSW","postcode":"2117"},{"addressType":"BILLTO","street":"13 Old St","city":"Ermington","state":"NSW","postcode":"2115"}]}
+          
+    responses:
+      201:
+        body:
+          application/json:
+            example: |
+              { "message": "Customer 1 added"}
+              
+  /{custId}:
+    description: Performs retrieve, update and delete operations on a customer
+    get:
+      description: Retrieve customer details
+      responses: 
+        200:
+          body: 
+            application/json:
+              example: |
+                {"custId":"3","firstName":"Lola","lastName":"Dance","addresses":[{"addressType":"SHIPTO","street":"12 New St","city":"Dundas","state":"NSW","postcode":"2117"},{"addressType":"BILLTO","street":"13 Old St","city":"Ermington","state":"NSW","postcode":"2115"}]}
+        404:
+          body: 
+            application/json:
+              example: |
+                {"message": "Customer 4 not found"}
+    put:
+      description: Updates a customer
+      body: 
+        application/json:
+          example: |
+            {"firstName":"Lola","lastName":"Dance","addresses":[{"addressType":"SHIPTO","street":"12 New St","city":"Dundas","state":"NSW","postcode":"2117"},{"addressType":"BILLTO","street":"13 Old St","city":"Ermington","state":"NSW","postcode":"2115"}]} 
+      responses: 
+        202:
+          body: 
+            application/json:
+              example: |
+                {"message": "Customer 3 updated"}
+        404:
+          body:
+            application/json:
+              example: |
+                {"message": "Customer 4 not found"}
+                
+    delete:
+      description: Deletes a customer
+      responses: 
+        202:
+          body: 
+            application/json:
+              example: |
+                {"message": "Customer 5 deleted"}
+        404:
+          body:
+            application/json:
+              example: |
+                {"message": "Customer 4 not found"}
